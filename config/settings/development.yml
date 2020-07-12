@@ -1,2 +1,5 @@
 db:
   database:  ads_microservice_development
+  # database: ads_development
+  user: ads
+  password: ads_toor

@@ -1,0 +1,10 @@
+en:
+  model:
+    errors:
+      ad:
+        title:
+          blank: Enter title
+        description:
+          blank: Enter description
+        city:
+          blank: Enter city

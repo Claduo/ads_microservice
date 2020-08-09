@@ -1,0 +1,6 @@
+en:
+  api:
+    errors:
+      not_found: 'Resource is not found'
+      not_unique: 'This resource already exists'
+      missing_parameters: 'Required parameters are missing'

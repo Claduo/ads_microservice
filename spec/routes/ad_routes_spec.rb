@@ -16,6 +16,12 @@ RSpec.describe AdRoutes, type: :routes do
 
   describe 'POST /v1 ' do
     let(:user_id) { 110 }
+    let(:geocoder_client) { instance_double("Geocoder Client") }
+
+    before do
+      allow(GeocoderService::Client).to receive(:new).and_return(geocoder_client)
+      allow(geocoder_client).to receive(:geo_coordinates).and_return({'lat' => 100.to_f, 'lon' => 200.to_f })
+    end
 
     context 'missing parameters' do
       it 'returns an error' do

@@ -9,4 +9,5 @@ Dir[Application.root.concat('/spec/support/**/*.rb')].sort.each {|file| require 
 RSpec.configure do |config|
   config.include Rack::Test::Methods
   config.include RouteHelpers, type: :routes
+  config.include FaradayHelpers, type: :client
 end

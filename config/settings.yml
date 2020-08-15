@@ -4,6 +4,7 @@ db:
   user: postgres
 pagination:
   page_size: 10
-
 app:
   geocoder_base_url: http://localhost:3030
+rabbitmq:
+  consumer_pool: 10

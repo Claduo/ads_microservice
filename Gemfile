@@ -21,6 +21,7 @@ gem 'dry-validation', '~> 1.5.0'
 gem 'faraday'
 gem 'faraday_middleware'
 
+gem 'bunny'
 gem 'activesupport', '~> 6.0.0', require: false
 gem 'fast_jsonapi',  '~> 1.5'
 

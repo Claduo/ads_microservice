@@ -1,5 +1,5 @@
 class AdRoutes < Application
-  helpers PaginationLinks
+  helpers PaginationLinks, AuthHelper
   namespace '/v1' do
     get do
       page = params[:page].presence || 1
@@ -15,7 +15,7 @@ class AdRoutes < Application
       ad_params = validate_with!(AdParamsContract)
       result = Ads::CreateService.call(
           ad: ad_params[:ad],
-          user_id: params[:user_id]
+          user_id: user_id
       )
 
       if result.success?

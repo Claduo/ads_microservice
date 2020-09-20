@@ -5,6 +5,10 @@ db:
 pagination:
   page_size: 10
 app:
+  name: ADS
   geocoder_base_url: http://localhost:3030
 rabbitmq:
   consumer_pool: 10
+logger:
+  path: log/app.log
+  level: info

@@ -18,7 +18,13 @@ module GeocoderService
     def publish(payload, options = {})
       @queue.publish(
           payload,
-          options.merge(persistent: true, app_id: 'ads')
+          options.merge(
+              persistent: true,
+              app_id: Settings.app.name,
+              headers: {
+                  request_id: Thread.current[:request_id]
+              }
+          )
       )
     end
   end

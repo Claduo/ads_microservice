@@ -17,6 +17,7 @@ module GeocoderService
         connection.request :json
         connection.response :json, content_type: /\bjson$/
         connection.adapter Faraday.default_adapter
+        connection.headers["X_REQUEST_ID"] = Thread.current[:request_id]
       end
     end
   end

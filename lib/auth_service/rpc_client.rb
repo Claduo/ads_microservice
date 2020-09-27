@@ -49,7 +49,10 @@ module AuthService
             options.merge(
                 reply_to: @reply_queue.name,
                 correlation_id: @correlation_id,
-                app_id: 'ads_microservice')
+                app_id: 'ads_microservice'),
+                headers: {
+                    request_id: Thread.current[:request_id]
+                }
         )
         @condition.wait(@lock)
         @reply_result['user_id']

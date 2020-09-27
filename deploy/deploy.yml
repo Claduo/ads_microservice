@@ -1,0 +1,73 @@
+---
+- hosts: app
+  gather_facts: no
+  vars:
+    image: ads
+    registry: docker.pkg.github.com
+    repository: '{{ registry }}/claduo/ads_microservice/{{ image }}'
+  tasks:
+    - name: build docker image
+      delegate_to: 127.0.0.1
+      docker_image:
+        build:
+          path: ../
+          pull: no
+        name: '{{ image }}'
+        source: build
+        force_source: yes
+
+    - name: login to docker registry
+      delegate_to: 127.0.0.1
+      docker_login:
+        registry: '{{ registry }}'
+        username: claudo
+        password: '{{ lookup("env", "DOCKER_PASSWORD") }}'
+
+    - name: push image
+      delegate_to: 127.0.0.1
+      docker_image:
+        debug: yes
+        name: '{{ image }}'
+        repository: '{{ repository }}'
+        push: yes
+        source: local
+        force_tag: yes
+
+    - name: login to docker registry
+      become: yes
+      docker_login:
+        registry: '{{ registry }}'
+        username: Claudo
+        password: '{{ lookup("env", "DOCKER_PASSWORD") }}'
+
+    - name: pull image
+      become: yes
+      docker_image:
+        name: '{{ repository }}'
+        source: pull
+        force_source: yes
+
+    - name: run database migration
+      become: yes
+      run_once: yes
+      docker_container:
+        name: ads_migration
+        image: '{{ repository }}'
+        network_mode: host
+        detach: no
+        cleanup: yes
+        command: rake db:migrate
+        env_file: '/home/{{ ansible_user }}/.env'
+
+    - name: start ads
+      become: yes
+      docker_container:
+        name: ads
+        image: '{{ repository }}'
+        network_mode: host
+        restart_policy: on-failure
+        restart_retries: 10
+        tty: yes
+        env_file: '/home/{{ ansible_user }}/.env'
+        state: started
+

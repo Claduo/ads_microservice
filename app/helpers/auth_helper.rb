@@ -8,7 +8,7 @@ module AuthHelper
   private
 
   def auth_client
-    @auth_client ||= AuthService::RcpClient.fetch
+    @auth_client ||= AuthService::RpcClient.fetch
   end
 
   def matched_token

@@ -1,7 +1,8 @@
-require "amazing_print"
+logerdev = Application.environment == :production ? STDOUT : Application.root.concat("/", Settings.logger.path)
+
 Application.configure do |app|
   logger = Ougai::Logger.new(
-      app.root.concat("/", Settings.logger.path),
+      logerdev,
       level: Settings.logger.level
   )
 
@@ -12,8 +13,8 @@ Application.configure do |app|
   app.set :logger, logger
 end
 
-Application.configure :development do
-  Application.logger.formatter = Ougai::Formatters::Readable.new
-end
+# Application.configure :development do
+#   Application.logger.formatter = Ougai::Formatters::Readable.new
+# end
 
 Sequel::Model.db.loggers.push(Application.logger)

@@ -1,0 +1,5 @@
+[app]
+165.227.142.230
+
+[all:vars]
+ansible_user=deploy
